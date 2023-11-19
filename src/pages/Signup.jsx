@@ -11,7 +11,7 @@ import {
   Container,
 } from "@mui/material";
 import { LockOutlined } from "@mui/icons-material";
-import useClasses from "../../hooks/useClasses";
+import useClasses from "../hooks/useClasses";
 import axios from "axios";
 import { useState } from "react";
 

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 import { LockOutlined } from "@mui/icons-material";
-import useClasses from "../../hooks/useClasses";
+import useClasses from "../hooks/useClasses";
 import { useState } from "react";
 import axios from "axios";
 
