@@ -1,14 +1,15 @@
+// import homepage images from assets
 import heroBgImage from "../assets/Homepage/hero-1-bg.jpg";
 import helpImage from "../assets/Homepage/help.png";
 import helpOneImage from "../assets/Homepage/help-1.svg";
 import helpTwoImage from "../assets/Homepage/help-2.svg";
-
 import clientOneImage from "../assets/Homepage/cli-1.png";
 import clientTwoImage from "../assets/Homepage/cli-2.png";
 import clientThreeImage from "../assets/Homepage/cli-3.png";
 import clientFourImage from "../assets/Homepage/cli-4.png";
 import clientFiveImage from "../assets/Homepage/cli-5.jpg";
 
+// import css module styles
 import styles from "./Homepage.module.css";
 
 export default function Homepage() {
