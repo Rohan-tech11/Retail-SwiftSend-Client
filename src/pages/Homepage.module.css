@@ -1,0 +1,161 @@
+/* Hero Section Styles */
+.hero {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+}
+
+.hero__bg {
+    width: 100%;
+    height: auto;
+    filter: brightness(70%);
+}
+
+.hero__area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+}
+
+.hero__content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero__content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.hero__btn__box {
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.btn__orange {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.btn__light {
+    background-color: #ecf0f1;
+    color: #333;
+}
+
+.btn:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+
+/* Help Section Styles */
+
+
+.image__text__section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.help__img img {
+    max-width: 100%; 
+    height: auto;
+}
+
+.text__container {
+    max-width: 600px; 
+    flex: 1;
+    margin: 20px;
+}
+
+.section__title {
+    font-size: 1.5em;
+}
+
+.section__text {
+    font-size: 1em; 
+}
+
+.help__collections {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px; 
+}
+
+.help__collections li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.help__icon img {
+    max-width: 30px; 
+    margin-right: 10px;
+}
+
+.hero__btn__box {
+    margin-top: 20px;
+}
+
+
+
+/* Client css start */
+
+.client {
+    background-color: #fff;
+    padding: 50px 0;
+}
+
+.client__area {
+    text-align: center;
+}
+
+.client__text {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.client__wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.client__wrapper img {
+    max-width: 10%;
+    height: auto;
+    margin: 10px;
+}
+
+/* Media Queries for Responsive Design */
+@media only screen and (max-width: 768px) {
+    .text__container {
+        max-width: 100%; /* Adjust the maximum width for smaller screens */
+    }
+
+    .section__title {
+        font-size: 1.2em; /* Adjust font size for even smaller screens */
+    }
+
+    .section__text {
+        font-size: 0.9em; /* Adjust font size for even smaller screens */
+    }
+
+    .help__icon img {
+        max-width: 25px; /* Adjust icon size for smaller screens */
+    }
+}
