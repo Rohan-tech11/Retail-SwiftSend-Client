@@ -22,7 +22,7 @@ const styles = (theme) => ({
   },
   hover: {
     textDecoration: "none",
-    color: "#fff",
+    color: theme.palette.primary.main,
     margin: theme.spacing(1),
     padding: "10px",
   },
@@ -53,7 +53,7 @@ export default function Header() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -70,7 +70,7 @@ export default function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="main menu"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
@@ -143,7 +143,7 @@ export default function Header() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
