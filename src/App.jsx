@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import BaseLayout from "./layouts/BaseLayout";
 import Homepage from "./pages/Homepage";
-import Aboutpage from "./pages/Aboutpage";
+import About from "./pages/About";
 
 
 const router = createBrowserRouter([
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
       { index: true, element: <Homepage /> },
       { path: "login", element: <Login /> },
       { path: "signup", element: <SignUp /> },
-      { path: "about", element: <Aboutpage /> },
+      { path: "about", element: <About /> },
     ],
   },
 ]);
