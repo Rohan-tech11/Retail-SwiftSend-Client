@@ -1,206 +1,120 @@
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Grid,
-  Typography,
-  Container,
-} from "@mui/material";
-
-import { LockOutlined } from "@mui/icons-material";
-import useClasses from "../hooks/useClasses";
+import { AccountCircle } from "@mui/icons-material";
+import styles from "./Signup.module.css";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 
-const styles = (theme) => ({
-  root: {
-    height: "100vh",
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-});
+export default function Signup() {
+  let emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
-export default function Login() {
-  const classes = useClasses(styles);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [formError, setFormError] = useState(false);
 
-  const [error, setError] = useState({
-    email: "",
-    password: "",
-    form: "",
-  });
-  const [fields, setFields] = useState({
-    email: "",
-    password: "",
-  });
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const handleEmail = (input) => {
-    let email = input.target.value;
-
-    let regex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-    if (!regex.test(email)) {
-      setError((prevState) => ({
-        ...prevState,
-        email: "Please enter a valid email.",
-      }));
+  function onEmailChange(event) {
+    let value = event.target.value;
+    setEmail(value);
+    if (!emailRegex.test(value)) {
+      setEmailError(true);
     } else {
-      setError((prevState) => ({
-        ...prevState,
-        email: "",
-      }));
-      setFields((prevState) => ({
-        ...prevState,
-        email: email,
-      }));
+      setEmailError(false);
     }
-  };
+  }
 
-  const handlePassword = (event) => {
-    let password = event.target.value;
-
-    if (!password) {
-      setError((prevState) => ({
-        ...prevState,
-        password: "Password is required.",
-      }));
+  function onPasswordChange(event) {
+    let value = event.target.value;
+    setPassword(value);
+    if (!value) {
+      setPasswordError(true);
     } else {
-      setError((prevState) => ({
-        ...prevState,
-        password: "",
-      }));
-      setFields((prevState) => ({
-        ...prevState,
-        password: password,
-      }));
+      setPasswordError(false);
     }
-  };
+  }
 
-  const handleFormSubmit = async (event) => {
+  const navigate = useNavigate();
+
+  function isError() {
+    if (emailError && passwordError) {
+      return true;
+    } else if (!email || !password) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function handleSubmit(event) {
     event.preventDefault();
-    if (!fields.email || !fields.password) {
-      setError((prevState) => ({
-        ...prevState,
-        form: "Email and password required.",
-      }));
-    } else {
-      setError((prevState) => ({
-        ...prevState,
-        form: "",
-      }));
+    let error = isError();
+    if (!error) {
+      setFormError(false);
+
       let data = {
-        email: fields.email,
-        password: fields.password,
+        email: email,
+        password: password,
       };
-      await axios({
-        url: "/api/login",
-        method: "post",
-        headers: "application/json",
-        data: data,
-      })
-        .then((data) => {
-          console.log("Form submission", data);
-          if (data.status === 200) {
-            setLoggedIn(true);
-          }
-        })
-        .catch((err) => {
-          if (err.response.status === 401) {
-            setError((prevState) => ({
-              ...prevState,
-              form: `ERROR: ${err.response.data}`,
-            }));
-          }
-          console.log("Error in form submission", err);
-        });
+
+      console.log(data);
+      navigate("/");
+    } else {
+      setFormError(true);
     }
-  };
+  }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlined />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign In
-        </Typography>
-        {error.form}
-        <form className={classes.form} noValidate onSubmit={handleFormSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
+    <div className={styles.container}>
+      <form className={styles.form}>
+        <div className={styles.headingContainer}>
+          <AccountCircle />
+          <p>Login</p>
+        </div>
+        <div className={styles.error}>
+          {formError ? "Please fill all details" : null}
+        </div>
+        <div className={styles.labelContainer}>
+          <label htmlFor="email" className={styles.label}>
+            Email
+          </label>
+          <input
+            type="text"
             name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handleEmail}
+            id="email"
+            placeholder="john.doe@abc.com"
+            className={styles.input}
+            value={email}
+            onChange={onEmailChange}
+            onBlur={onEmailChange}
           />
-          {error.email}
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
+        </div>
+        <div className={styles.error}>
+          {emailError ? "Please enter a valid email." : null}
+        </div>
+
+        <div className={styles.labelContainer}>
+          <label htmlFor="password" className={styles.label}>
+            Password
+          </label>
+          <input
             type="password"
+            name="password"
             id="password"
-            autoComplete="current-password"
-            onChange={handlePassword}
+            placeholder="xxxxxxxxxxxxx"
+            className={styles.input}
+            value={password}
+            onChange={onPasswordChange}
+            onBlur={onPasswordChange}
           />
-          {error.password}
-          <br />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                {"Forgot password?"}
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+        </div>
+        <div className={styles.error}>
+          {passwordError ? "Please enter a password" : null}
+        </div>
+
+        <button className={styles.button} onClick={handleSubmit}>
+          Login
+        </button>
+        <Link to="/login">Don&apos;t have an account? Login Here</Link>
+      </form>
+    </div>
   );
 }

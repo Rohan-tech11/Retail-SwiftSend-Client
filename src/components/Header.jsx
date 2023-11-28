@@ -9,27 +9,29 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import { NavLink } from "react-router-dom";
-import useClasses from "../hooks/useClasses";
+// import useClasses from "../hooks/useClasses";
+
+import styles from './Header.module.css';
 
 import logo from "/logo-glyph.png";
 
-const styles = (theme) => ({
-  link: {
-    textDecoration: "none",
-    color: "#fff",
-    margin: theme.spacing(1),
-    padding: "10px",
-  },
-  hover: {
-    textDecoration: "none",
-    color: theme.palette.primary.main,
-    margin: theme.spacing(1),
-    padding: "10px",
-  },
-});
+// const styles = (theme) => ({
+//   link: {
+//     textDecoration: "none",
+//     color: "#fff",
+//     margin: theme.spacing(1),
+//     padding: "10px",
+//   },
+//   hover: {
+//     textDecoration: "none",
+//     color: theme.palette.primary.main,
+//     margin: theme.spacing(1),
+//     padding: "10px",
+//   },
+// });
 
 export default function Header() {
-  const classes = useClasses(styles);
+  // const classes = useClasses(styles);
 
   const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -100,9 +102,7 @@ export default function Header() {
                 <Typography>
                   <NavLink
                     to="/"
-                    className={({ isActive }) =>
-                      isActive ? classes.hover : classes.link
-                    }
+                    className={styles.link}
                   >
                     Home
                   </NavLink>
@@ -112,9 +112,7 @@ export default function Header() {
                 <Typography textAlign="center">
                   <NavLink
                     to="/about"
-                    className={({ isActive }) =>
-                      isActive ? classes.hover : classes.link
-                    }
+                    className={styles.link}
                   >
                     About
                   </NavLink>
@@ -124,9 +122,7 @@ export default function Header() {
                 <Typography textAlign="center">
                   <NavLink
                     to="/login"
-                    className={({ isActive }) =>
-                      isActive ? classes.hover : classes.link
-                    }
+                    className={styles.link}
                   >
                     Login
                   </NavLink>
@@ -166,25 +162,19 @@ export default function Header() {
           >
             <NavLink
               to="/"
-              className={({ isActive }) =>
-                isActive ? classes.hover : classes.link
-              }
+              className={styles.link}
             >
               Home
             </NavLink>
             <NavLink
               to="/about"
-              className={({ isActive }) =>
-                isActive ? classes.hover : classes.link
-              }
+              className={styles.link}
             >
               About
             </NavLink>
             <NavLink
               to="/login"
-              className={({ isActive }) =>
-                isActive ? classes.hover : classes.link
-              }
+              className={styles.link}
             >
               Login
             </NavLink>

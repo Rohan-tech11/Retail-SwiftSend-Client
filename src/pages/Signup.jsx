@@ -1,200 +1,223 @@
-import {
-  Avatar,
-  Button,
-  CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
-  Grid,
-  Typography,
-  Container,
-} from "@mui/material";
-import { LockOutlined } from "@mui/icons-material";
-import useClasses from "../hooks/useClasses";
-import axios from "axios";
+import { AccountCircle } from "@mui/icons-material";
+import styles from "./Signup.module.css";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-const styles = (theme) => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-});
+export default function Signup() {
+  let nameRegex = /^(?![\s.]+$)[a-zA-Z\s.]*$/;
+  let emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  let phoneRegex = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
+  let passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-export default function SignUp() {
-  const [state, setState] = useState({
-    name: "",
-    email: "",
-    password: "",
-    nameValid: false,
-    emailValid: false,
-    passwordValid: false,
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+  const [formError, setFormError] = useState(false);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    console.log(name, value);
-    setState((prevProps) => ({
-      ...prevProps,
-      [name]: value,
-    }));
-  };
-
-  const validateInput = () => {
-    let nameRegex = /^(?![\s.]+$)[a-zA-Z\s.]*$/;
-    let emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    let passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-
-    console.log(nameRegex.test(state.name));
-
-    if (!nameRegex.test(state.name)) {
-      setState((prevProps) => ({
-        ...prevProps,
-        nameValid: false,
-      }));
-    } else if (!emailRegex.test(state.email)) {
-      setState((prevProps) => ({
-        ...prevProps,
-        emailValid: false,
-      }));
-    } else if (!passwordRegex.test(state.password)) {
-      setState((prevProps) => ({
-        ...prevProps,
-        passwordValid: false,
-      }));
+  function onNameChange(event) {
+    let value = event.target.value;
+    setName(value);
+    if (!nameRegex.test(value)) {
+      setNameError(true);
     } else {
+      setNameError(false);
+    }
+  }
+  function onEmailChange(event) {
+    let value = event.target.value;
+    setEmail(value);
+    if (!emailRegex.test(value)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  }
+  function onPhoneChange(event) {
+    let value = event.target.value;
+
+    setPhone(value);
+    if (!phoneRegex.test(value)) {
+      setPhoneError(true);
+    } else {
+      setPhoneError(false);
+    }
+  }
+  function onPasswordChange(event) {
+    let value = event.target.value;
+    setPassword(value);
+    if (!passwordRegex.test(value)) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
+  }
+  function onConfirmPasswordChange(event) {
+    let value = event.target.value;
+    setConfirmPassword(value);
+    if (password != value) {
+      setConfirmPasswordError(true);
+    } else {
+      setConfirmPasswordError(false);
+    }
+  }
+
+  const navigate = useNavigate();
+
+  function isError() {
+    if (
+      nameError &&
+      emailError &&
+      phoneError &&
+      passwordError &&
+      confirmPasswordError
+    ) {
+      console.log("check error", true);
       return true;
+    } else if (!name || !email || !phone || !password || !confirmPassword) {
+      console.log("check values", true);
+      return true;
+    } else {
+      console.log("No errors");
+      return false;
     }
-  };
+  }
 
-  const handleSubmit = async (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
-    let valid = validateInput();
-    
-    if (valid) {
+    let error = isError();
+    if (!error) {
+      setFormError(false);
       let data = {
-        name: state.name,
-        email: state.email,
-        password: state.password,
+        name: name,
+        email: email,
+        phone: phone,
+        password: password,
       };
-
-      await axios({
-        url: "/signup",
-        method: "post",
-        data: data,
-        headers: "application/json",
-      })
-        .then(() => {
-          console.log("Registered successfully!", data);
-        })
-        .catch((err) => {
-          console.log("Error register user: ", err);
-        });
+      console.log(data);
+      navigate("/verify");
+    } else {
+      setFormError(true);
     }
-    console.log(state);
-  };
+  }
 
-  const classes = useClasses(styles);
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlined />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <form className={classes.form}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="name"
-                name="name"
-                variant="outlined"
-                required
-                fullWidth
-                id="fullName"
-                label="Full Name"
-                value={state.name}
-                onChange={handleInputChange}
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                value={state.email}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={state.password}
-                onChange={handleInputChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Checkbox value="allowExtraEmails" color="primary" required />
-                }
-                label="I Agree to the terms and conditions."
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleSubmit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+    <div className={styles.container}>
+      <form className={styles.form}>
+        <div className={styles.headingContainer}>
+          <AccountCircle />
+          <p>Signup</p>
+        </div>
+        <div className={styles.error}>
+          {formError ? "Please fix form errors. All fields mandatory" : null}
+        </div>
+        <div className={styles.labelContainer}>
+          <label htmlFor="name" className={styles.label}>
+            Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            placeholder="John Doe"
+            className={styles.input}
+            value={name}
+            onChange={onNameChange}
+          />
+        </div>
+        <div className={styles.error}>
+          {nameError ? "Please enter a valid name." : null}
+        </div>
+        <div className={styles.labelContainer}>
+          <label htmlFor="email" className={styles.label}>
+            Email
+          </label>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            placeholder="john.doe@abc.com"
+            className={styles.input}
+            value={email}
+            onChange={onEmailChange}
+            onBlur={onEmailChange}
+          />
+        </div>
+        <div className={styles.error}>
+          {emailError ? "Please enter a valid email." : null}
+        </div>
+
+        <div className={styles.labelContainer}>
+          <label htmlFor="phone" className={styles.label}>
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            id="phone"
+            placeholder="9876543210"
+            className={styles.input}
+            value={phone}
+            onChange={onPhoneChange}
+            onBlur={onPhoneChange}
+          />
+        </div>
+        <div className={styles.error}>
+          {phoneError ? "Please enter a valid number." : null}
+        </div>
+
+        <div className={styles.labelContainer}>
+          <label htmlFor="password" className={styles.label}>
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="xxxxxxxxxxxxx"
+            className={styles.input}
+            value={password}
+            onChange={onPasswordChange}
+            onBlur={onPasswordChange}
+          />
+        </div>
+        <div className={styles.error}>
+          {passwordError
+            ? "Password should have 1 uppercase, 1 lowercase, 1 symbol and 8 characters."
+            : null}
+        </div>
+
+        <div className={styles.labelContainer}>
+          <label htmlFor="confirmPassword" className={styles.label}>
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            placeholder="xxxxxxxxxxxxx"
+            className={styles.input}
+            value={confirmPassword}
+            onChange={onConfirmPasswordChange}
+          />
+        </div>
+        <div className={styles.error}>
+          {confirmPasswordError
+            ? "Password and confirm password should match."
+            : null}
+        </div>
+
+        <button className={styles.button} onClick={handleSubmit}>
+          Signup
+        </button>
+        <Link to="/login">Alread have an account? Login Here</Link>
+      </form>
+    </div>
   );
 }
