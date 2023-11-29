@@ -2,6 +2,9 @@ import { AccountCircle } from "@mui/icons-material";
 import styles from "./Signup.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import Cookies from "universal-cookie";
 
 export default function Signup() {
   let emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
@@ -11,6 +14,7 @@ export default function Signup() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [formError, setFormError] = useState(false);
+  const cookies = new Cookies();
 
   function onEmailChange(event) {
     let value = event.target.value;
@@ -44,7 +48,7 @@ export default function Signup() {
     }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     let error = isError();
     if (!error) {
@@ -55,10 +59,27 @@ export default function Signup() {
         password: password,
       };
 
-      console.log(data);
-      navigate("/");
+      await axios({
+        method: "post",
+        url: "/api/register/login",
+        data: data,
+      })
+        .then((res) => {
+          // setJwt(jwtDecode(res.data.jwt));
+          cookies.set("jwt", res.data.jwt, { path: "/" });
+          let token = jwtDecode(res.data.jwt);
+          console.log(token);
+          if (token.roles === "USER") {
+            navigate("/");
+          } else {
+            navigate("/");
+          }
+        })
+        .catch((err) => {
+          console.log("Error logging in", err);
+        });
     } else {
-      setFormError(true);
+      setFormError(true)
     }
   }
 
@@ -113,7 +134,7 @@ export default function Signup() {
         <button className={styles.button} onClick={handleSubmit}>
           Login
         </button>
-        <Link to="/login">Don&apos;t have an account? Login Here</Link>
+        <Link to="/signup">Don&apos;t have an account? Signup</Link>
       </form>
     </div>
   );
