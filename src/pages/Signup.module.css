@@ -12,8 +12,8 @@
 }
 
 .headingContainer p {
-    font-size: 25px;
-    font-weight: 600;
+  font-size: 25px;
+  font-weight: 600;
 }
 
 .form {
@@ -22,7 +22,6 @@
   align-items: center;
   padding: 20px;
   box-shadow: 2px 2px 11px 3px #9c9c9c8a;
-  min-width: 50%;
   margin: 30px;
 }
 
@@ -34,22 +33,21 @@
 
 .label {
   display: inline-block;
-  width: 100px;
+  width: 180px;
   margin-top: 20px;
 }
 
 .input {
   margin-top: 20px;
-  padding: 10px 30px 10px 5px;
+  padding: 10px 58px 10px 5px;
   border: 1px solid #9c9c9c;
   border-radius: 5px;
 }
 
 .button {
-  /* display: block; */
-  width: 100%;
+  width: 60%;
   padding: 12px 65px;
-  margin: 20px;
+  margin: 30px 20px 20px 20px;
   background: #258dfc;
   color: #fff;
   border: none;
@@ -58,12 +56,12 @@
   transition: 0.5s;
   font-size: 17px;
 }
-
 .button:hover {
   background: #024d9d;
 }
 
 .error {
   display: block;
+  align-self: flex-start;
   color: red;
 }

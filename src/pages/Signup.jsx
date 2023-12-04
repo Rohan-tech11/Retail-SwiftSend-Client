@@ -1,7 +1,10 @@
 import { AccountCircle } from "@mui/icons-material";
-import styles from "./Signup.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
+import { PulseLoader } from "react-spinners";
+
+import styles from "./Signup.module.css";
 
 export default function Signup() {
   let nameRegex = /^(?![\s.]+$)[a-zA-Z\s.]*$/;
@@ -9,17 +12,19 @@ export default function Signup() {
   let phoneRegex = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   let passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("John Doe");
+  const [email, setEmail] = useState("mthite5161@conestogac.on.ca");
+  const [phone, setPhone] = useState("5195008854");
+  const [password, setPassword] = useState("Abc123!@");
+  const [confirmPassword, setConfirmPassword] = useState("Abc123!@");
+
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
-  const [formError, setFormError] = useState(false);
+  const [formError, setFormError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   function onNameChange(event) {
     let value = event.target.value;
@@ -72,10 +77,10 @@ export default function Signup() {
 
   function isError() {
     if (
-      nameError &&
-      emailError &&
-      phoneError &&
-      passwordError &&
+      nameError ||
+      emailError ||
+      phoneError ||
+      passwordError ||
       confirmPasswordError
     ) {
       console.log("check error", true);
@@ -89,21 +94,58 @@ export default function Signup() {
     }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    setIsLoading(true);
     let error = isError();
+
     if (!error) {
-      setFormError(false);
-      let data = {
-        name: name,
+      setFormError("");
+
+      const data = {
+        fullName: name,
         email: email,
-        phone: phone,
+        mobileNumber: phone,
         password: password,
       };
-      console.log(data);
-      navigate("/verify");
+
+      await axios({
+        method: "post",
+        url: "/api/register/user",
+        data: data,
+      })
+        .then((res) => {
+          setIsLoading(false);
+          console.log("In user registration:", res);
+
+          navigate("/verify");
+        })
+        .catch((err) => {
+          setIsLoading(false);
+
+          switch (err.response.status) {
+            case 400:
+              setFormError("ERROR: Account already exists.");
+              break;
+            case 401:
+              setFormError(
+                "ERROR: Invalid data or unreachable server. Try again."
+              );
+              break;
+            case 500:
+              setFormError("ERROR: The server is unreachable.");
+              break;
+            default:
+              setFormError(
+                "ERROR: Invalid or incomplete information submitted."
+              );
+              break;
+          }
+          console.log("Error signing up", err);
+        });
     } else {
-      setFormError(true);
+      setIsLoading(false);
+      setFormError("Please fix form errors. All fields mandatory");
     }
   }
 
@@ -114,9 +156,7 @@ export default function Signup() {
           <AccountCircle />
           <p>Signup</p>
         </div>
-        <div className={styles.error}>
-          {formError ? "Please fix form errors. All fields mandatory" : null}
-        </div>
+        <div className={styles.error}>{formError && formError}</div>
         <div className={styles.labelContainer}>
           <label htmlFor="name" className={styles.label}>
             Name
@@ -213,8 +253,12 @@ export default function Signup() {
             : null}
         </div>
 
-        <button className={styles.button} onClick={handleSubmit}>
-          Signup
+        <button
+          className={styles.button}
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? <PulseLoader color="#fff" size={5} /> : "Signup"}
         </button>
         <Link to="/login">Alread have an account? Login Here</Link>
       </form>
