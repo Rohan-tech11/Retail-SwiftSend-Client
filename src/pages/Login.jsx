@@ -1,12 +1,14 @@
 import { AccountCircle } from "@mui/icons-material";
-import styles from "./Signup.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Cookies from "universal-cookie";
+import { PulseLoader } from "react-spinners";
 
-export default function Signup() {
+import styles from "./login.module.css";
+
+export default function Login() {
   let emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
   const [email, setEmail] = useState("");
@@ -14,6 +16,8 @@ export default function Signup() {
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [formError, setFormError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const cookies = new Cookies();
 
   function onEmailChange(event) {
@@ -50,9 +54,11 @@ export default function Signup() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setIsLoading(true);
+
     let error = isError();
     if (!error) {
-      setFormError(false);
+      setFormError("");
 
       let data = {
         email: email,
@@ -65,21 +71,52 @@ export default function Signup() {
         data: data,
       })
         .then((res) => {
+          setIsLoading(false);
+
           // setJwt(jwtDecode(res.data.jwt));
-          cookies.set("jwt", res.data.jwt, { path: "/" });
-          let token = jwtDecode(res.data.jwt);
-          console.log(token);
-          if (token.roles === "USER") {
-            navigate("/");
+          if (res.data.jwt) {
+            cookies.set("jwt", res.data.jwt, { path: "/" });
+            let token = jwtDecode(res.data.jwt);
+            console.log(token);
+            if (token.roles === "USER") {
+              console.log("User role detected logging in");
+              navigate("/client");
+            } else {
+              console.log("Client role detected logging in");
+              // navigate("/");
+            }
           } else {
-            navigate("/");
+            console.log("No jwt in login", res);
           }
         })
         .catch((err) => {
-          console.log("Error logging in", err);
+          setIsLoading(false);
+
+          switch (err.response.status) {
+            case 400:
+              setFormError(
+                "ERROR: Invalid credentials or Account does not exist."
+              );
+              break;
+            case 401:
+              setFormError(
+                "ERROR: Unauthorized request or server unreachable."
+              );
+              break;
+            case 500:
+              setFormError("ERROR: The server is unreachable.");
+              break;
+            default:
+              setFormError(
+                "ERROR: Invalid or incomplete information submitted."
+              );
+              break;
+          }
+          console.log("Error signing up", err);
         });
     } else {
-      setFormError(true)
+      setIsLoading(false);
+      setFormError("Please fix form errors. All fields mandatory");
     }
   }
 
@@ -90,9 +127,7 @@ export default function Signup() {
           <AccountCircle />
           <p>Login</p>
         </div>
-        <div className={styles.error}>
-          {formError ? "Please fill all details" : null}
-        </div>
+        <div className={styles.error}>{formError && formError}</div>
         <div className={styles.labelContainer}>
           <label htmlFor="email" className={styles.label}>
             Email
@@ -131,8 +166,12 @@ export default function Signup() {
           {passwordError ? "Please enter a password" : null}
         </div>
 
-        <button className={styles.button} onClick={handleSubmit}>
-          Login
+        <button
+          className={styles.button}
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? <PulseLoader color="#fff" size={5} /> : "Login"}
         </button>
         <Link to="/signup">Don&apos;t have an account? Signup</Link>
       </form>
