@@ -260,6 +260,11 @@ export default function Signup() {
         >
           {isLoading ? <PulseLoader color="#fff" size={5} /> : "Signup"}
         </button>
+        <h3>OR</h3>
+        <Link to="/signup/client">
+          <button className={styles.buttonAlt}>I&apos;m a service provider</button>
+        </Link>
+
         <Link to="/login">Alread have an account? Login Here</Link>
       </form>
     </div>
