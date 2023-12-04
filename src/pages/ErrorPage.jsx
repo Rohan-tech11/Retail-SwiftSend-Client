@@ -4,17 +4,19 @@ export default function ErrorPage() {
   const error = useRouteError();
 
   let title = "An error occured.";
-  let message = "Something went wrong";
-  let status = 404;
+  let message = "Something went wrong.";
+  let status = 500;
 
-  if (error.status === 403) {
-    status = 403;
-    message = error.message;
-  }
-
-  <div>
-    <h1>Error {status}</h1>
-    <h3>{title}</h3>
-    <p>{message}</p>
-  </div>;
+  // if (error.status === 403) {
+  //   title = "Unauthorized.";
+  //   message = error.data.message;
+  //   status = error.data.status;
+  // }
+  return (
+    <>
+      <h1>{title}</h1>
+      <h2>{status}</h2>
+      <p>{message}</p>
+    </>
+  );
 }
