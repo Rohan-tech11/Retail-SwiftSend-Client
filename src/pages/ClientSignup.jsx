@@ -1,9 +1,10 @@
 import { AccountCircle } from "@mui/icons-material";
-import styles from "./Signup.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { PulseLoader } from "react-spinners";
+
+import styles from "./Signup.module.css";
 
 export default function ClientSignup() {
   let nameRegex = /^(?![\s.]+$)[a-zA-Z\s.]*$/;
@@ -124,7 +125,7 @@ export default function ClientSignup() {
     setIsLoading(true);
     let error = isError();
     if (!error) {
-      setFormError(false);
+      setFormError("");
 
       let data = {
         businessName: name,
@@ -141,19 +142,8 @@ export default function ClientSignup() {
         data: data,
       })
         .then((res) => {
-          if (res.data.httpStatus !== "CREATED") {
-            switch (res.status) {
-              case 400:
-                setFormError("ERROR: Account already exists.");
-                break;
-              default:
-                setFormError(
-                  "ERROR: Invalid or incomplete information submitted."
-                );
-                break;
-            }
-          }
           setIsLoading(false);
+          navigate("/verify");
           console.log(res);
         })
         .catch((err) => {
@@ -161,6 +151,14 @@ export default function ClientSignup() {
           switch (err.response.status) {
             case 400:
               setFormError("ERROR: Account already exists.");
+              break;
+            case 401:
+              setFormError(
+                "ERROR: Invalid data or unreachable server. Try again."
+              );
+              break;
+            case 500:
+              setFormError("ERROR: The server is unreachable.");
               break;
             default:
               setFormError(
