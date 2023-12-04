@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CssBaseline from "@mui/material/CssBaseline";
 
 import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
@@ -10,9 +9,9 @@ import Verify from "./pages/Verify";
 import ClientSignup from "./pages/ClientSignup";
 import AddService from "./pages/AddService";
 import Dashboard from "./pages/Dashboard";
-import ErrorPage from "./pages/ErrorPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Services from "./pages/Services";
+import ErrorPage from "./pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +31,6 @@ const router = createBrowserRouter([
       { path: "signup/client", element: <ClientSignup /> },
       { path: "about", element: <About /> },
       { path: "verify", element: <Verify /> },
-      { path: "dashboard", element: <Dashboard /> },
     ],
   },
   {
@@ -42,8 +40,16 @@ const router = createBrowserRouter([
     children: [
       {
         path: "services",
-        element: <Services />,
-        children: [{ path: "add", element: <AddService /> }],
+        children: [
+          {
+            index: true,
+            element: <Services />,
+          },
+          {
+            path: "add",
+            element: <AddService />,
+          },
+        ],
       },
     ],
   },
@@ -52,7 +58,6 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <CssBaseline />
       <RouterProvider router={router} />
     </>
   );
