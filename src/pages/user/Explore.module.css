@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 5px;
+  padding: 20px;
+  box-shadow: 1px 2px 10px 1px #8f8f8f61;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: 0.7s;
+  min-width: 320px;
+}
+
+.card:hover {
+  box-shadow: 1px 2px 10px 1px #00000061;
+}
+
+.cardHeading {
+  font-size: 30px;
+}
+
+.domestic {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  color: #025ea7;
+}
+
+.international {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  color: #e91e63;
+}
+
+.client {
+  font-size: 22px;
+}
+
+.price {
+  align-self: flex-end;
+  padding-right: 6px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #009362;
+}
+
+.unit {
+  margin: 0;
+  color: #818181;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.link {
+  color: #171717;
+}
