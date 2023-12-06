@@ -73,17 +73,25 @@ export default function Login() {
         .then((res) => {
           setIsLoading(false);
 
-          // setJwt(jwtDecode(res.data.jwt));
           if (res.data.jwt) {
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${res.data.jwt}`;
+
             cookies.set("jwt", res.data.jwt, { path: "/" });
+
+            localStorage.setItem("token", res.data.jwt);
+
             let token = jwtDecode(res.data.jwt);
+            
             console.log(token);
             if (token.roles === "USER") {
               console.log("User role detected logging in");
-              navigate("/client");
+              navigate("/user");
             } else {
               console.log("Client role detected logging in");
               // navigate("/");
+              navigate("/client");
             }
           } else {
             console.log("No jwt in login", res);
