@@ -77,6 +77,10 @@ export default function AddService() {
 
   const navigate = useNavigate();
 
+  function backHandler() {
+    return navigate("..");
+  }
+
   function isError() {
     if (
       serviceNameError ||
@@ -109,6 +113,8 @@ export default function AddService() {
     if (!error) {
       setFormError(false);
 
+      console.log(axios.defaults);
+
       let data = {
         serviceName: serviceName,
         serviceDescription: description,
@@ -119,6 +125,9 @@ export default function AddService() {
       await axios({
         method: "post",
         url: "/api/clients/addService",
+        headers: {
+          "Content-Type": "application/json"
+        },
         data: data,
       })
         .then((res) => {
@@ -264,7 +273,9 @@ export default function AddService() {
         >
           {isLoading ? <PulseLoader color="#fff" size={5} /> : "Add Service"}
         </button>
-        <button className={styles.backButton}>Back</button>
+        <button className={styles.backButton} onClick={backHandler}>
+          Back
+        </button>
       </form>
     </div>
   );
