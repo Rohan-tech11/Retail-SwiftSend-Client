@@ -8,10 +8,13 @@ import About from "./pages/About";
 import Verify from "./pages/Verify";
 import ClientSignup from "./pages/ClientSignup";
 import AddService from "./pages/AddService";
-import Dashboard from "./pages/Dashboard";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Services from "./pages/Services";
 import ErrorPage from "./pages/ErrorPage";
+import Dashboard from "./pages/Dashboard";
+import Explore from "./pages/Explore";
+import Orders from "./pages/Orders";
+import Logout from "./pages/Logout";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +34,10 @@ const router = createBrowserRouter([
       { path: "signup/client", element: <ClientSignup /> },
       { path: "about", element: <About /> },
       { path: "verify", element: <Verify /> },
+      {
+        path: "logout",
+        element: <Logout />,
+      },
     ],
   },
   {
@@ -50,6 +57,25 @@ const router = createBrowserRouter([
             element: <AddService />,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: "user",
+    element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "explore",
+        element: <Explore />,
+      },
+      {
+        path: "orders",
+        element: <Orders />,
       },
     ],
   },
