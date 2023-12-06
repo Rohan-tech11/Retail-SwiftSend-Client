@@ -1,36 +1,33 @@
-import { Outlet } from "react-router-dom";
-import Cookie from "universal-cookie";
+import { Outlet, json } from "react-router-dom";
 
-import ClientSidebar from "../components/ClientSidebar";
+import Sidebar from "../components/Sidebar";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
 import styles from "./Dashboard.module.css";
+import getAuthToken from "../utils/auth";
 
-function DashboardLayout() {
+export default function DashboardLayout() {
   const [sidebar, setSidebar] = useState(true);
 
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
+
+  const { cookie, token } = getAuthToken();
 
   useEffect(() => {
-    const cookie = new Cookie();
-    setUser(jwtDecode(cookie.get("jwt")));
+    if (token) {
+      setUser(jwtDecode(token));
+    } else {
+      throw json("Unauthorized.", 401);
+    }
   }, []);
 
-  // if (user) {
   return (
     <>
-      <ClientSidebar sidebar={sidebar} setSidebar={setSidebar} />
+      <Sidebar sidebar={sidebar} setSidebar={setSidebar} role={user.roles} />
       <div className={sidebar ? styles.open : styles.closed}>
-        {/* <h1>Hi, {user.sub}</h1> */}
         <Outlet />
       </div>
     </>
   );
-  // } else {
-  //   throw Error("You do not have permission to access this page.",
-  //   );
-  // }
 }
-
-export default DashboardLayout;
