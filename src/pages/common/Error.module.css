@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 82.2vh;
+  }
+  
+  .button {
+    padding: 12px 65px;
+    margin: 10px;
+    background: #258dfc;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    transition: 0.5s;
+    font-size: 17px;
+  }
+  .button:hover {
+    background: #024d9d;
+  }

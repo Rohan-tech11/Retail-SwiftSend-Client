@@ -1,12 +1,12 @@
 import { Container } from "@mui/material";
 
-import logistics1 from "../assets/Aboutpage/logistics1.jpg";
-import gc_icon from "../assets/Aboutpage/gc-icon.svg";
-import logistic from "../assets/Aboutpage/logistic.jpg";
-import team1 from "../assets/Aboutpage/team-1.png";
-import team2 from "../assets/Aboutpage/team-2.png";
-import team3 from "../assets/Aboutpage/team-3.png";
-import team4 from "../assets/Aboutpage/team-4.png";
+import logistics1 from "../../assets/Aboutpage/logistics1.jpg";
+import gc_icon from "../../assets/Aboutpage/gc-icon.svg";
+import logistic from "../../assets/Aboutpage/logistic.jpg";
+import team1 from "../../assets/Aboutpage/team-1.png";
+import team2 from "../../assets/Aboutpage/team-2.png";
+import team3 from "../../assets/Aboutpage/team-3.png";
+import team4 from "../../assets/Aboutpage/team-4.png";
 
 import styles from "./About.module.css";
 

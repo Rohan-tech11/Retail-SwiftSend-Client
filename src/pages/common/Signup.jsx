@@ -3,28 +3,35 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { PulseLoader } from "react-spinners";
+import Cookies from 'universal-cookie'
+import getAuthToken from "../../utils/auth";
 
 import styles from "./Signup.module.css";
 
-export default function ClientSignup() {
+export default function Signup() {
+  const cookies = new Cookies();
+
+  const {cookie, token} = getAuthToken();
+
+  if (token || cookie) {
+    localStorage.clear();
+    cookies.remove("jwt");
+  }
+
   let nameRegex = /^(?![\s.]+$)[a-zA-Z\s.]*$/;
   let emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
   let phoneRegex = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   let passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
   const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("johndoe1@gmail.com");
-  const [phone, setPhone] = useState("5195195191");
-  const [registry, setRegisty] = useState("202020202020200");
-  const [location, setLocation] = useState("King St, Waterloo, ON");
-  const [password, setPassword] = useState("Abc1234!@");
-  const [confirmPassword, setConfirmPassword] = useState("Abc1234!@");
+  const [email, setEmail] = useState("mthite5161@conestogac.on.ca");
+  const [phone, setPhone] = useState("5195008854");
+  const [password, setPassword] = useState("Abc123!@");
+  const [confirmPassword, setConfirmPassword] = useState("Abc123!@");
 
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [phoneError, setPhoneError] = useState(false);
-  const [registryError, setRegistryError] = useState(false);
-  const [locationError, setLocationError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [confirmPasswordError, setConfirmPasswordError] = useState(false);
   const [formError, setFormError] = useState("");
@@ -58,26 +65,6 @@ export default function ClientSignup() {
       setPhoneError(false);
     }
   }
-  function onRegistryChange(event) {
-    let value = event.target.value;
-
-    setRegisty(value);
-    if (value.length != 15) {
-      setRegistryError(true);
-    } else {
-      setRegistryError(false);
-    }
-  }
-  function onLocationChange(event) {
-    let value = event.target.value;
-
-    setLocation(value);
-    if (!value) {
-      setLocationError(true);
-    } else {
-      setLocationError(false);
-    }
-  }
   function onPasswordChange(event) {
     let value = event.target.value;
     setPassword(value);
@@ -104,8 +91,6 @@ export default function ClientSignup() {
       nameError ||
       emailError ||
       phoneError ||
-      registryError ||
-      locationError ||
       passwordError ||
       confirmPasswordError
     ) {
@@ -124,30 +109,31 @@ export default function ClientSignup() {
     event.preventDefault();
     setIsLoading(true);
     let error = isError();
+
     if (!error) {
       setFormError("");
 
-      let data = {
-        businessName: name,
+      const data = {
+        fullName: name,
         email: email,
         mobileNumber: phone,
-        businessRegistryId: registry,
-        registeredOfficeLocation: location,
         password: password,
       };
 
       await axios({
         method: "post",
-        url: "/api/register/client",
+        url: "/api/register/user",
         data: data,
       })
         .then((res) => {
           setIsLoading(false);
+          console.log("In user registration:", res);
+
           navigate("/verify");
-          console.log(res);
         })
         .catch((err) => {
           setIsLoading(false);
+
           switch (err.response.status) {
             case 400:
               setFormError("ERROR: Account already exists.");
@@ -166,7 +152,7 @@ export default function ClientSignup() {
               );
               break;
           }
-          console.log("Error logging in", err);
+          console.log("Error signing up", err);
         });
     } else {
       setIsLoading(false);
@@ -184,7 +170,7 @@ export default function ClientSignup() {
         <div className={styles.error}>{formError && formError}</div>
         <div className={styles.labelContainer}>
           <label htmlFor="name" className={styles.label}>
-            Organization Name
+            Name
           </label>
           <input
             type="text"
@@ -238,44 +224,6 @@ export default function ClientSignup() {
         </div>
 
         <div className={styles.labelContainer}>
-          <label htmlFor="registry" className={styles.label}>
-            Business Number
-          </label>
-          <input
-            type="text"
-            name="registry"
-            id="registry"
-            placeholder="000000000000000"
-            className={styles.input}
-            value={registry}
-            onChange={onRegistryChange}
-            onBlur={onRegistryChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {registryError ? "Please enter a valid business number." : null}
-        </div>
-
-        <div className={styles.labelContainer}>
-          <label htmlFor="location" className={styles.label}>
-            Local HQ Location
-          </label>
-          <input
-            type="text"
-            name="location"
-            id="location"
-            placeholder="Street, Province, Country"
-            className={styles.input}
-            value={location}
-            onChange={onLocationChange}
-            onBlur={onLocationChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {locationError ? "Please enter a valid business number." : null}
-        </div>
-
-        <div className={styles.labelContainer}>
           <label htmlFor="password" className={styles.label}>
             Password
           </label>
@@ -323,6 +271,11 @@ export default function ClientSignup() {
         >
           {isLoading ? <PulseLoader color="#fff" size={5} /> : "Signup"}
         </button>
+        <h3>OR</h3>
+        <Link to="/signup/client">
+          <button className={styles.buttonAlt}>I&apos;m a service provider</button>
+        </Link>
+
         <Link to="/login">Alread have an account? Login Here</Link>
       </form>
     </div>

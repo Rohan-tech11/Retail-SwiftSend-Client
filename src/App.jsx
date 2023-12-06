@@ -1,20 +1,22 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Login from "./pages/Login";
-import SignUp from "./pages/Signup";
+import Login from "./pages/common/Login";
+import SignUp from "./pages/common/Signup";
 import BaseLayout from "./layouts/BaseLayout";
-import Homepage from "./pages/Homepage";
-import About from "./pages/About";
-import Verify from "./pages/Verify";
-import ClientSignup from "./pages/ClientSignup";
-import AddService from "./pages/AddService";
+import Homepage from "./pages/common/Homepage";
+import About from "./pages/common/About";
+import Verify from "./pages/common/Verify";
+import ClientSignup from "./pages/client/ClientSignup";
+import AddService from "./pages/client/AddService";
 import DashboardLayout from "./layouts/DashboardLayout";
-import Services from "./pages/Services";
-import ErrorPage from "./pages/ErrorPage";
-import Dashboard from "./pages/Dashboard";
-import Explore from "./pages/Explore";
-import Orders from "./pages/Orders";
-import Logout from "./pages/Logout";
+import Services from "./pages/client/Services";
+import ErrorPage from "./pages/common/ErrorPage";
+import Dashboard from "./pages/user/Dashboard";
+import Explore from "./pages/user/Explore";
+import Orders from "./pages/user/Orders";
+import Logout from "./pages/common/Logout";
+import ClientDashboard from "./pages/client/ClientDashboard";
+import ServiceDetails from "./pages/user/ServiceDetails";
 
 const router = createBrowserRouter([
   {
@@ -54,6 +56,11 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        index: true,
+        element: <ClientDashboard />
+
+      },
+      {
         path: "services",
         children: [
           {
@@ -79,7 +86,16 @@ const router = createBrowserRouter([
       },
       {
         path: "explore",
-        element: <Explore />,
+        children: [
+          {
+            index: true,
+            element: <Explore />,
+          },
+          {
+            path: ":serviceId",
+            element: <ServiceDetails />
+          }
+        ]
       },
       {
         path: "orders",

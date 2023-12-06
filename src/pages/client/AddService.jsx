@@ -5,6 +5,7 @@ import axios from "axios";
 import { PulseLoader } from "react-spinners";
 
 import styles from "./AddService.module.css";
+import getAuthToken from "../../utils/auth";
 
 export default function AddService() {
   let serviceNameRegex = /^(?![\s.]+$)[a-zA-Z0-9\s.]*$/;
@@ -115,10 +116,14 @@ export default function AddService() {
 
       console.log(axios.defaults);
 
+      const token = getAuthToken().token;
+      console.log(token);
+
       let data = {
         serviceName: serviceName,
         serviceDescription: description,
         deliveryTimeDays: estimatedDeliveryDuration,
+        serviceType: serviceType,
         price: price,
       };
 
@@ -126,38 +131,34 @@ export default function AddService() {
         method: "post",
         url: "/api/clients/addService",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
         },
         data: data,
       })
         .then((res) => {
-          // if (res.data.httpStatus !== "CREATED") {
-          //   switch (res.status) {
-          //     case 400:
-          //       setFormError("ERROR: Account already exists.");
-          //       break;
-          //     default:
-          //       setFormError(
-          //         "ERROR: Invalid or incomplete information submitted."
-          //       );
-          //       break;
-          //   }
-          // }
           setIsLoading(false);
+          navigate("client/services");
           console.log(res);
         })
         .catch((err) => {
           setIsLoading(false);
-          // switch (err.response.status) {
-          //   case 400:
-          //     setFormError("ERROR: Account already exists.");
-          //     break;
-          //   default:
-          //     setFormError(
-          //       "ERROR: Invalid or incomplete information submitted."
-          //     );
-          //     break;
-          // }
+          switch (err.response.status) {
+            case 400:
+              setFormError("ERROR: Server is unresponsive.");
+              break;
+            case 401:
+              setFormError("ERROR: Client not approved by admin.");
+              break;
+            case 500:
+              setFormError("ERROR: The server is unreachable.");
+              break;
+            default:
+              setFormError(
+                "ERROR: Invalid or incomplete information submitted."
+              );
+              break;
+          }
           console.log("Error adding service", err);
         });
     } else {

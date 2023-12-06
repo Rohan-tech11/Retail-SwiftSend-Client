@@ -1,9 +1,11 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { Link, useLoaderData, json } from "react-router-dom";
 import { FaPencil } from "react-icons/fa6";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 
 import styles from "./Services.module.css";
 import { FaPlusCircle } from "react-icons/fa";
+import { useEffect } from "react";
 
 const services = [
   {
@@ -61,9 +63,9 @@ export default function Services() {
             </tr>
           </thead>
           <tbody>
-            {services ? (
-              services.map((items) => {
-                return (
+          {services ? (
+            services.map((items) => {
+              return (
                   <tr key={items.id}>
                     <td>{items.name}</td>
                     <td>{items.type}</td>
@@ -78,12 +80,12 @@ export default function Services() {
                       </Link>
                     </td>
                   </tr>
-                );
-              })
+              );
+            })
             ) : (
-              <div>No results found.</div>
-            )}
-          </tbody>
+              <tr>No results found.</tr>
+              )}
+              </tbody>
         </table>
       </div>
     </div>

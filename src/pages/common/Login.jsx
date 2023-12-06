@@ -7,8 +7,18 @@ import Cookies from "universal-cookie";
 import { PulseLoader } from "react-spinners";
 
 import styles from "./login.module.css";
+import getAuthToken from "../../utils/auth";
 
 export default function Login() {
+  const cookies = new Cookies();
+
+  const {cookie, token} = getAuthToken();
+
+  if (token || cookie) {
+    localStorage.clear();
+    cookies.remove("jwt");
+  }
+
   let emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
   const [email, setEmail] = useState("");
@@ -17,8 +27,6 @@ export default function Login() {
   const [passwordError, setPasswordError] = useState(false);
   const [formError, setFormError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const cookies = new Cookies();
 
   function onEmailChange(event) {
     let value = event.target.value;
@@ -83,14 +91,11 @@ export default function Login() {
             localStorage.setItem("token", res.data.jwt);
 
             let token = jwtDecode(res.data.jwt);
-            
-            console.log(token);
+
+            console.log(res);
             if (token.roles === "USER") {
-              console.log("User role detected logging in");
               navigate("/user");
             } else {
-              console.log("Client role detected logging in");
-              // navigate("/");
               navigate("/client");
             }
           } else {
@@ -127,7 +132,6 @@ export default function Login() {
       setFormError("Please fix form errors. All fields mandatory");
     }
   }
-
   return (
     <div className={styles.container}>
       <form className={styles.form}>
