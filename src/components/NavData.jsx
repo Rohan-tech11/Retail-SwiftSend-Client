@@ -4,7 +4,7 @@ import { TbCubePlus } from "react-icons/tb";
 import { MdLogout } from "react-icons/md";
 import { HiOutlineNewspaper } from "react-icons/hi";
 
-export const clientSidebarData = [
+export const client = [
   {
     title: "Dashboard",
     path: "/client",
@@ -23,6 +23,32 @@ export const clientSidebarData = [
         icon: <TbCubePlus />,
       },
     ],
+  },
+  {
+    title: "Orders",
+    path: "orders",
+    icon: <HiOutlineNewspaper />,
+    drop: false,
+  },
+  {
+    title: "Logout",
+    path: "/logout",
+    icon: <MdLogout />,
+  },
+];
+
+export const user = [
+  {
+    title: "Dashboard",
+    path: "/user",
+    icon: <FaHome />,
+    drop: false,
+  },
+  {
+    title: "Explore",
+    path: "explore",
+    icon: <MdOutlineMiscellaneousServices />,
+    drop: false,
   },
   {
     title: "Orders",
