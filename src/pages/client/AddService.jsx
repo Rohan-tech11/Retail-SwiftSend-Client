@@ -10,13 +10,13 @@ import getAuthToken from "../../utils/auth";
 export default function AddService() {
   let serviceNameRegex = /^(?![\s.]+$)[a-zA-Z0-9\s.]*$/;
 
-  const [serviceName, setServiceName] = useState("Express Courier");
+  const [serviceName, setServiceName] = useState("Global Express");
   const [description, setDescription] = useState(
-    "Some service description sdsfsfsdfsf sdfsdfsdf sdfsdf"
+    "If you want to send your overseas family a gift or a package, this is the perfect option for you."
   );
   const [estimatedDeliveryDuration, setEstimatedDeliveryDuration] = useState(5);
-  const [price, setPrice] = useState("");
-  const [serviceType, setServiceType] = useState("Domestic");
+  const [price, setPrice] = useState(35.2);
+  const [serviceType, setServiceType] = useState("international");
 
   const [serviceNameError, setServiceNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
@@ -132,13 +132,13 @@ export default function AddService() {
         url: "/api/clients/addService",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
         },
         data: data,
       })
         .then((res) => {
           setIsLoading(false);
-          navigate("client/services");
+          navigate("/client/services");
           console.log(res);
         })
         .catch((err) => {
