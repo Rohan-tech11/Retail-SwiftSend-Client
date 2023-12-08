@@ -12,8 +12,8 @@ export default function ClientSignup() {
   let phoneRegex = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   let passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("johndoe1@gmail.com");
+  const [name, setName] = useState("TNT");
+  const [email, setEmail] = useState("mthite5161@conestogac.on.ca");
   const [phone, setPhone] = useState("5195195191");
   const [registry, setRegisty] = useState("202020202020200");
   const [location, setLocation] = useState("King St, Waterloo, ON");
