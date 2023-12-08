@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 0px 20px;
+  border-bottom: 1px solid #98dfff;
+}
+
+.button {
+  padding: 5px 25px;
+  background: #258dfc;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.disabled {
+  padding: 5px 25px;
+  background: #828282;
+  color: #dedede;
+  border: none;
+}
