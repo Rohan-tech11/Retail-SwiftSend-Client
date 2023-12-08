@@ -1,11 +1,14 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useLoaderData, json } from "react-router-dom";
+import { Link, useLoaderData, json, useNavigate } from "react-router-dom";
+import getAuthToken from "../../utils/auth";
+
 import { FaPencil } from "react-icons/fa6";
 import { RiDeleteBin5Fill } from "react-icons/ri";
+import { FaPlusCircle } from "react-icons/fa";
+import { MdError } from "react-icons/md";
 
 import styles from "./Services.module.css";
-import { FaPlusCircle } from "react-icons/fa";
-import { useEffect } from "react";
 
 const services = [
   {
@@ -34,25 +37,81 @@ const services = [
   },
   {
     id: 5,
-    name: "RapidDelivery",
-    type: "domestic",
-    price: 6.8,
+    name: "Global Express",
+    type: "international",
+    price: 35.2,
   },
 ];
 
 export default function Services() {
+  const [isApproved, setIsApproved] = useState(false);
+
+  async function checkAdminApproval() {
+    const token = getAuthToken().token;
+
+    await axios({
+      method: "get",
+      url: "/api/clients/isAdminApproved",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setIsApproved(res.data.responseData);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  async function fetchServices() {
+    const token = getAuthToken().token;
+
+    await axios({
+      method: "get",
+      url: "/api/clients/isAdminApproved",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        setIsApproved(res.data.responseData);
+      })
+      .catch((err) => {
+        setIsApproved(false);
+        console.log("Error fetching approval status", err);
+      });
+  }
+
+  const navigate = useNavigate()
+
+  function handleAddService() {
+    navigate("add")
+  }
+
+  useEffect(() => {
+    checkAdminApproval();
+  });
+
   return (
     <div>
       <div className={styles.header}>
         <h1>Services</h1>
-        <Link to="add">
-          <button className={styles.button}>
+          <button className={styles.button} disabled={!isApproved} onClick={handleAddService}>
             <FaPlusCircle />
             <span style={{ marginLeft: "5px" }}>Add a service</span>
           </button>
-        </Link>
       </div>
       <div className={styles.container}>
+        {!isApproved ? (
+          <div className={styles.warning}>
+            <MdError /> Your account is not approved by the admin yet. You won't
+            be able to add services.
+          </div>
+        ) : (
+          ""
+        )}
         <table>
           <thead>
             <tr>
@@ -63,9 +122,9 @@ export default function Services() {
             </tr>
           </thead>
           <tbody>
-          {services ? (
-            services.map((items) => {
-              return (
+            {services ? (
+              services.map((items) => {
+                return (
                   <tr key={items.id}>
                     <td>{items.name}</td>
                     <td>{items.type}</td>
@@ -80,12 +139,12 @@ export default function Services() {
                       </Link>
                     </td>
                   </tr>
-              );
-            })
+                );
+              })
             ) : (
               <tr>No results found.</tr>
-              )}
-              </tbody>
+            )}
+          </tbody>
         </table>
       </div>
     </div>

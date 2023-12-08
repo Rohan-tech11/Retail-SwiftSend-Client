@@ -22,18 +22,29 @@
 .button:hover {
   background: #024d9d;
 }
+.button:disabled {
+  background: #616161;
+}
 
 .container {
-    margin: 20px;
+  margin: 20px;
+}
+
+.warning {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #ffd0d0ab;
+  gap: 10px;
 }
 
 .actions {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .actions a {
-    font-size: 1.3rem;
-    color: #024d9d;
+  font-size: 1.3rem;
+  color: #024d9d;
 }
