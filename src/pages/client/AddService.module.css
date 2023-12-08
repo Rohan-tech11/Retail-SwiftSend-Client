@@ -39,14 +39,16 @@
 
 .input {
   margin-top: 20px;
-  padding: 10px 58px 10px 5px;
+  padding: 10px;
   border: 1px solid #9c9c9c;
   border-radius: 5px;
+  width: 225px;
 }
+
 
 .textarea {
   margin-top: 20px;
-  padding: 10px 15px 10px 5px;
+  padding: 10px;
   border: 1px solid #9c9c9c;
   border-radius: 5px;
   font-family: Inter;
@@ -54,13 +56,13 @@
 
 .select {
   margin-top: 20px;
-  padding: 10px 30px 10px 5px;
+  padding: 10px;
   border: 1px solid #9c9c9c;
   border-radius: 5px;
+  width: 225px;
 }
 
 .button {
-  /* display: block; */
   width: 60%;
   padding: 12px 65px;
   margin: 30px 20px 0px 20px;
