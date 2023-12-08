@@ -17,6 +17,8 @@ import Orders from "./pages/user/Orders";
 import Logout from "./pages/common/Logout";
 import ClientDashboard from "./pages/client/ClientDashboard";
 import ServiceDetails from "./pages/user/ServiceDetails";
+import ViewOrders from "./pages/client/ViewOrders";
+import ViewRequest from "./pages/client/ViewRequest";
 
 const router = createBrowserRouter([
   {
@@ -57,8 +59,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <ClientDashboard />
-
+        element: <ClientDashboard />,
       },
       {
         path: "services",
@@ -71,6 +72,19 @@ const router = createBrowserRouter([
             path: "add",
             element: <AddService />,
           },
+        ],
+      },
+      {
+        path: "orders",
+        children: [
+          {
+            index: true,
+            element: <ViewOrders />,
+          },
+          {
+            path: ":orderId",
+            element: <ViewRequest />
+          }
         ],
       },
     ],
@@ -93,9 +107,9 @@ const router = createBrowserRouter([
           },
           {
             path: ":serviceId",
-            element: <ServiceDetails />
-          }
-        ]
+            element: <ServiceDetails />,
+          },
+        ],
       },
       {
         path: "orders",
