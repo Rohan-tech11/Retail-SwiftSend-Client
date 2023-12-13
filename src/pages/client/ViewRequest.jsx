@@ -1,15 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PulseLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import getAuthToken from "../../utils/auth";
 
 import styles from "./viewRequest.module.css";
 
 export default function ViewRequest() {
   const [isLoading, setIsLoading] = useState(false);
+  const [order, setOrder] = useState();
   const navigate = useNavigate();
+  const { orderId } = useParams();
 
   const [days, setDays] = useState(23);
   const [price, setPrice] = useState(258);
+
+  const token = getAuthToken().token;
+
+  async function fetchOrders() {
+    await axios({
+      method: "get",
+      url: "/api/clients/getAllOrders",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res.data.responseData[orderId - 1]);
+        setOrder(res.data.responseData[orderId - 1]);
+      })
+      .catch((err) => {
+        console.log("Error fetching orders", err);
+      });
+  }
+
+  useEffect(() => {
+    fetchOrders();
+  }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -38,21 +65,27 @@ export default function ViewRequest() {
             borderRadius: "7px",
           }}
         >
-          <h3>Order details</h3>
-          <p>Order ID: 001</p>
-          <p>Customer Name: John Doe</p>
-          <p>Service Name: Global Express</p>
-          <p>Price (per kms): $35.20</p>
-          <br />
-          <h3>Shipping Details</h3>
-          <p>Source: 34, Weber St, Waterloo, ON, Canada</p>
-          <p>Destination: 89, Queens, Austin, TX, USA</p>
-          <p>Premium shipping: Yes</p>
-          <br />
-          <h3>Packagage details: </h3>
-          <p>Dimensions: 34 x 89.5, 12.4</p>
-          <p>Weight (kgs): 45.60</p>
-          <p>Package type: Regular</p>
+          {order && (
+            <>
+              <h3>Order details</h3>
+              <p>Order ID: {order.OrderId}</p>
+              <p>Customer Name: {order.CustomerName}</p>
+              <p>Customer Email: {order.CustomerEmailAddress}</p>
+              <p>Customer Phone: +1{order.CustomerContact}</p>
+              <p>Service Name: {order.ServiceName}</p>
+              <p>Price (per kms): $35.20</p>
+              <br />
+              <h3>Shipping Details</h3>
+              <p>Source: {order.Source}</p>
+              <p>Destination: {order.Destination}</p>
+              <p>Premium shipping: {order.Premium.toUpperCase()}</p>
+              <br />
+              <h3>Packagage details: </h3>
+              <p>Dimensions: {order.Dimensions}</p>
+              <p>Weight (kgs): {order.Weight}</p>
+              <p>Package type: {order.Type.toUpperCase()}</p>
+            </>
+          )}
         </div>
         <div>
           <form>
