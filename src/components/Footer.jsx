@@ -1,23 +1,13 @@
-import useClasses from "../hooks/useClasses";
-import logo from "/logo-glyph.png";
-
-const styles = () => ({
-    main: {
-        padding: "20px 0px",
-        textAlign: "center",
-        background: "#151515",
-        color: "#ececec",
-        fontSize: "13px",
-        marginTop: "auto"
-    }
-})
+// Footer.jsx
+import React from 'react';
+import { FooterContainer } from './footerStyles';
+import logo from '/logo-glyph.png';
 
 export default function Footer() {
-    const classes = useClasses(styles)
   return (
-    <footer className={classes.main}>
-      Copyright &copy; 2023. All rights reserved | Team swiftsend{" "}
+    <FooterContainer>
+      Copyright &copy; 2023. All rights reserved | Team SwiftSend{' '}
       <img src={logo} alt="logo" width="15px" />
-    </footer>
+    </FooterContainer>
   );
 }
