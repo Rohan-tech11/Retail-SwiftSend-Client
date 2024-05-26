@@ -9,7 +9,7 @@
   .button {
     padding: 12px 65px;
     margin: 10px;
-    background: #258dfc;
+    background: #ff6813;
     color: #fff;
     border: none;
     border-radius: 0;
@@ -18,5 +18,5 @@
     font-size: 17px;
   }
   .button:hover {
-    background: #024d9d;
+    background: #e05700;
   }

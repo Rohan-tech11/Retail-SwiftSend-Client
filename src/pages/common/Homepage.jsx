@@ -48,6 +48,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   margin: '20px 0',
   backgroundColor: '#ff6813',
   color: '#fff',
+  textTransform: 'capitalize',  
   '&:hover': {
     backgroundColor: '#e05700',
     color: 'black',
@@ -104,7 +105,7 @@ const HelpIcon = styled('div')({
 });
 
 const ClientSection = styled('div')(({ theme }) => ({
-  padding: '50px 0',
+  padding: '30px 0',
   textAlign: 'center',
 }));
 
@@ -112,7 +113,7 @@ const ClientWrapper = styled('div')({
   display: 'flex',
   justifyContent: 'space-around',
   alignItems: 'center',
-  marginTop: '20px',
+  marginTop: '`10px',
   '& img': {
     maxWidth: '10%',
     height: 'auto',
@@ -141,10 +142,10 @@ export default function Homepage() {
           <img src={Logistics} alt="Logistics" />
         </HelpImage>
         <TextContainer maxWidth="sm">
-          <Typography variant="h5" color="white">
+          <Typography variant="h5" color="#F0EBE3">
             How We Help Businesses Across The World.
           </Typography>
-          <Typography variant="body1" color="white">
+          <Typography variant="body1" color="#F0EBE3" margin="10px 0px">
             To become a digital logistics company, you&apos;ll need to invest in
             the latest technology. This includes transportation management
             systems (TMS), warehouse management systems (WMS), and other
@@ -156,17 +157,18 @@ export default function Homepage() {
               <HelpIcon>
                 <img src={helpOneImage} alt="help" />
               </HelpIcon>
-              <Typography variant="body1" color="white">Ultimate Data Protection</Typography>
+              <Typography variant="body1" color="#F0EBE3">Ultimate Data Protection</Typography>
             </li>
             <li>
               <HelpIcon>
                 <img src={helpTwoImage} alt="help" />
               </HelpIcon>
-              <Typography variant="body1" color="white">Easy and Quick Customer service</Typography>
+              <Typography variant="body1" color="#F0EBE3">Easy and Quick Customer service</Typography>
             </li>
           </HelpCollections>
           <HeroButtonBox data-aos="fade-up" data-aos-anchor-placement="top-center">
-            <CustomButton href="/about" disableRipple>About Us</CustomButton>
+            <CustomButton href="/about" disableRipple   
+>Learn More..</CustomButton>
           </HeroButtonBox>
         </TextContainer>
       </ImageTextSection>
