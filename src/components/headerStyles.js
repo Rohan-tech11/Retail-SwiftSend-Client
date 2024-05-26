@@ -1,12 +1,20 @@
 import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+
 
 export const StyledLink = styled('a')(({ theme }) => ({
   textDecoration: 'none',
   padding: '10px 20px',
-  color: '#fff',
+  color: '#F6F1EE',
   transition: '0.5s',
   '&:hover': {
     color: '#ffc0c0',
+  },
+  [theme.breakpoints.down('md')]: {
+    color: '#000', 
+    '&:hover': {
+      color: '#000', 
+    },
   },
 }));
 
@@ -71,4 +79,21 @@ export const MenuItemsBox = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
   },
+}));
+
+
+export const StyledButton = styled(Button)(({ theme }) => ({
+  padding: '8px 0px',
+  marginLeft:'5px',
+  color: '#F6F1EE',
+  backgroundColor: '#ff6813',
+  transition: '0.5s',
+  '&:hover': {
+    backgroundColor: '#e05700',
+  },
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+    },
+ 
+
 }));

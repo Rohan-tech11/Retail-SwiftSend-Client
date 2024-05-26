@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { NavLink } from 'react-router-dom';
 import {
   StyledLink,
+  StyledButton,
   Logo,
   Title,
   MobileTitle,
@@ -33,14 +34,17 @@ export default function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: '#292929' }}>
       <Container maxWidth="100%">
         <Toolbar disableGutters>
           <DesktopLogo>
             <Logo src={logo} alt="logo" />
           </DesktopLogo>
           <Typography
-            variant="h6"
+            variant="h5"
+            color={'#ff6813'}
+            paddingLeft={'5px'}
+            fontWeight={'bold'}
             noWrap
             component={Title}
             href="/"
@@ -55,10 +59,16 @@ export default function Header() {
             <NavLink to="/about" style={{ textDecoration: 'none' }}>
               <StyledLink>About</StyledLink>
             </NavLink>
-            <NavLink to="/login" style={{ textDecoration: 'none' }}>
-              <StyledLink>Login</StyledLink>
-            </NavLink>
           </MenuItemsBox>
+          <StyledButton
+  component={NavLink}
+  variant='contained'
+  to="/login"
+  disableRipple={true}
+>
+  Login
+</StyledButton>
+
 
           {/* Mobile */}
           <MobileLogo>

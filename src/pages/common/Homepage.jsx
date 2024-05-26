@@ -1,126 +1,188 @@
-// import homepage images from assets
 import heroBgImage from "../../assets/Homepage/hero-1-bg.jpg";
-import helpImage from "../../assets/Homepage/help.png";
+import Logistics from "../../assets/Homepage/help.png";
 import helpOneImage from "../../assets/Homepage/help-1.svg";
 import helpTwoImage from "../../assets/Homepage/help-2.svg";
 import clientOneImage from "../../assets/Homepage/cli-1.png";
 import clientTwoImage from "../../assets/Homepage/cli-2.png";
 import clientThreeImage from "../../assets/Homepage/cli-3.png";
 import clientFourImage from "../../assets/Homepage/cli-4.png";
-import clientFiveImage from "../../assets/Homepage/cli-5.jpg";
+import clientFiveImage from "../../assets/Homepage/cli-5.png";
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
 
-// import css module styles
-import styles from "./Homepage.module.css";
+const Hero = styled('div')(({ theme }) => ({
+  position: 'relative',
+  color: '#fff',
+  textAlign: 'center',
+  margin: '20px 0',
+  height: '10vh',
+}));
+
+const HeroArea = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  textAlign: 'center',
+  color: '#fff',
+}));
+
+const HeroContent = styled('div')({
+  margin: '0 auto',
+});
+
+const HeroButtonBox = styled('div')({
+  marginTop: '20px',
+});
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  display: 'inline-block',
+  padding: '8px 20px',
+  fontSize: '16px',
+  textDecoration: 'none',
+  borderRadius: '5px',
+  transition: 'background-color 0.3s',
+  margin: '20px 0',
+  backgroundColor: '#ff6813',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: '#e05700',
+    color: 'black',
+  },
+}));
+
+const ImageTextSection = styled('section')({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+});
+
+const HelpImage = styled('div')({
+  maxWidth: '100%',
+  height: '550px',
+  '& img': {
+    maxWidth: '100%',
+    height: '100%',
+  },
+});
+
+const TextContainer = styled(Container)(({ theme }) => ({
+  maxWidth: '600px',
+  flex: 1,
+  margin: '20px',
+  backgroundColor: '#292929',
+  borderRadius: '5px',
+  height: '38vh',
+  padding: '20px',
+  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+  [theme.breakpoints.down('md')]: {
+    maxWidth: '100%',
+  },
+}));
+
+const HelpCollections = styled('ul')({
+  listStyle: 'none',
+  padding: 0,
+  marginTop: '10px',
+  '& li': {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: '10px',
+  },
+});
+
+const HelpIcon = styled('div')({
+  maxWidth: '30px',
+  marginRight: '10px',
+  '& img': {
+    maxWidth: '100%',
+  },
+});
+
+const ClientSection = styled('div')(({ theme }) => ({
+  padding: '50px 0',
+  textAlign: 'center',
+}));
+
+const ClientWrapper = styled('div')({
+  display: 'flex',
+  justifyContent: 'space-around',
+  alignItems: 'center',
+  marginTop: '20px',
+  '& img': {
+    maxWidth: '10%',
+    height: 'auto',
+    margin: '10px',
+  },
+});
 
 export default function Homepage() {
   return (
     <div>
-      <div id="hero" className={styles.hero}>
-        <img
-          src={heroBgImage}
-          alt="background image"
-          className={styles.hero__bg}
-        />
-        <div className={styles.hero__area}>
-          <div className="container">
-            <div className={styles.hero__content}>
-              <h1 data-aos="fade-up" data-aos-anchor-placement="top-center">
-                Logistic Delivery Around The World
-              </h1>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Hero>
+        <HeroArea>
+          <HeroContent>
+            <Typography variant="h3" data-aos-anchor-placement="top-center" style={{ color: '#292929',fontWeight: 'bold' }}>
+              Logistic Delivery{' '}
+              <Typography component="span" variant="h3" style={{ color: '#ff6813',fontWeight: 'bold' }}>
+                Around The World
+              </Typography>
+            </Typography>
+          </HeroContent>
+        </HeroArea>
+      </Hero>
 
-      <section className={styles.image__text__section}>
-        <div className={styles.help__img}>
-          <img src={helpImage} alt="help" />
-        </div>
-        <div className={styles.text__container}>
-          <h2 className={styles.section__title}>
+      <ImageTextSection>
+        <HelpImage>
+          <img src={Logistics} alt="Logistics" />
+        </HelpImage>
+        <TextContainer maxWidth="sm">
+          <Typography variant="h5" color="white">
             How We Help Businesses Across The World.
-          </h2>
-
-          <p className={styles.section__text}>
+          </Typography>
+          <Typography variant="body1" color="white">
             To become a digital logistics company, you&apos;ll need to invest in
             the latest technology. This includes transportation management
             systems (TMS), warehouse management systems (WMS), and other
             software that can help you streamline your operations, reduce costs,
             and improve customer service.
-          </p>
-          <ul className={styles.help__collections}>
+          </Typography>
+          <HelpCollections>
             <li>
-              <div className={styles.help__icon}>
+              <HelpIcon>
                 <img src={helpOneImage} alt="help" />
-              </div>
-              <h3>Ultimate Data Protection</h3>
+              </HelpIcon>
+              <Typography variant="body1" color="white">Ultimate Data Protection</Typography>
             </li>
             <li>
-              <div className={styles.help__icon}>
+              <HelpIcon>
                 <img src={helpTwoImage} alt="help" />
-              </div>
-              <h3>Easy and Quick Customer service</h3>
+              </HelpIcon>
+              <Typography variant="body1" color="white">Easy and Quick Customer service</Typography>
             </li>
-          </ul>
-          <div
-            data-aos="fade-up"
-            data-aos-anchor-placement="top-center"
-            className={styles.hero__btn__box}
-          >
-            <a href="#" className={styles.btn + " " + styles.btn__orange}>
-              About Us
-            </a>
-          </div>
-        </div>
-      </section>
+          </HelpCollections>
+          <HeroButtonBox data-aos="fade-up" data-aos-anchor-placement="top-center">
+            <CustomButton href="/about" disableRipple>About Us</CustomButton>
+          </HeroButtonBox>
+        </TextContainer>
+      </ImageTextSection>
 
-      <div id="client" className={styles.client + " " + styles.section__pb}>
-        <div className={styles.client__area}>
-          <div className="container">
-            <div
-              data-aos="fade-up"
-              data-aos-anchor-placement="top-center"
-              className={styles.section__top__title}
-            >
-              <p className={styles.client__text}>
-                Trusted by 100+ growing partners take our services
-              </p>
-            </div>
-            <div className={styles.client__wrapper}>
-              <img
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-center"
-                src={clientOneImage}
-                alt="client"
-              />
-              <img
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-center"
-                src={clientTwoImage}
-                alt="client"
-              />
-              <img
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-center"
-                src={clientThreeImage}
-                alt="client"
-              />
-              <img
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-center"
-                src={clientFourImage}
-                alt="client"
-              />
-              <img
-                data-aos="fade-up"
-                data-aos-anchor-placement="top-center"
-                src={clientFiveImage}
-                alt="client"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <ClientSection id="client">
+        <Typography variant="h5" data-aos="fade-up" data-aos-anchor-placement="top-center" style={{ color: '#292929' }}>
+          Trusted by 100+ growing partners take our services
+        </Typography>
+        <ClientWrapper>
+          <img src={clientOneImage} alt="client" data-aos="fade-up" data-aos-anchor-placement="top-center" />
+          <img src={clientTwoImage} alt="client" data-aos="fade-up" data-aos-anchor-placement="top-center" />
+          <img src={clientThreeImage} alt="client" data-aos="fade-up" data-aos-anchor-placement="top-center" />
+          <img src={clientFourImage} alt="client" data-aos="fade-up" data-aos-anchor-placement="top-center" />
+          <img src={clientFiveImage} alt="client" data-aos="fade-up" data-aos-anchor-placement="top-center" />
+        </ClientWrapper>
+      </ClientSection>
     </div>
   );
 }
