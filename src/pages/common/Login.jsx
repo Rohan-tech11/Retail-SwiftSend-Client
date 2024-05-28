@@ -1,5 +1,19 @@
-import { AccountCircle } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import login from "../../assets/login.png";
+
+
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -8,6 +22,19 @@ import { PulseLoader } from "react-spinners";
 
 import styles from "./login.module.css";
 import getAuthToken from "../../utils/auth";
+
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#292929',
+    },
+    secondary: {
+      main: '#ff6813',
+      dark: '#e05700',
+    },
+  },
+});
+
 
 export default function Login() {
   const cookies = new Cookies();
@@ -58,6 +85,19 @@ export default function Login() {
     } else {
       return false;
     }
+  }
+
+  function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="#">
+          SwiftSend
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
   }
 
   async function handleSubmit(event) {
@@ -133,60 +173,109 @@ export default function Login() {
     }
   }
   return (
-    <div className={styles.container}>
-      <form className={styles.form}>
-        <div className={styles.headingContainer}>
-          <AccountCircle />
-          <p>Login</p>
-        </div>
-        <div className={styles.error}>{formError && formError}</div>
-        <div className={styles.labelContainer}>
-          <label htmlFor="email" className={styles.label}>
-            Email
-          </label>
-          <input
-            type="text"
-            name="email"
-            id="email"
-            placeholder="john.doe@abc.com"
-            className={styles.input}
-            value={email}
-            onChange={onEmailChange}
-            onBlur={onEmailChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {emailError ? "Please enter a valid email." : null}
-        </div>
+    <ThemeProvider theme={defaultTheme}>
+<Grid container component="main" sx={{ height: '100vh' }}>
+    <CssBaseline />
+    <Grid
+    item
+    xs={12} 
+    sm={6} 
+    md={7}
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: (t) =>
+        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+    }}
+  >
+    <img
+      src={login}
+      alt="login"
+      style={{ width: '60%', height: '60%', objectFit: 'cover' }}
+    />
+  </Grid>
+  <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <div className={styles.error}>{formError && formError}</div>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                sx={{ mb: 2 }}
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onChange={onEmailChange}
+                onBlur={onEmailChange}
+                autoFocus
+              />
+              <div className={styles.error}>
+                {emailError ? "Please enter a valid email." : null}
+              </div>
 
-        <div className={styles.labelContainer}>
-          <label htmlFor="password" className={styles.label}>
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="xxxxxxxxxxxxx"
-            className={styles.input}
-            value={password}
-            onChange={onPasswordChange}
-            onBlur={onPasswordChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {passwordError ? "Please enter a password" : null}
-        </div>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                sx={{ mb: 2 }}
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                value={password}
+                onChange={onPasswordChange}
+                onBlur={onPasswordChange}
+                autoComplete="current-password"
+              />
+              <div className={styles.error}>
+                {passwordError ? "Please enter a password" : null}
+              </div>
 
-        <button
-          className={styles.button}
-          onClick={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? <PulseLoader color="#fff" size={5} /> : "Login"}
-        </button>
-        <Link to="/signup">Don&apos;t have an account? Signup</Link>
-      </form>
-    </div>
+              <Button
+                type="submit"
+                fullWidth
+                onClick={handleSubmit}
+                variant="contained"
+                disabled={isLoading}
+                sx={{ mt: 3, mb: 2,bgcolor: 'secondary.main',
+                '&:hover': {
+                  bgcolor: 'secondary.dark',
+                },
+                }}
+              >
+                {isLoading ? <PulseLoader color="#fff" size={5} /> : "Sign In"}
+              </Button>
+              <Grid container>
+                <Grid item>
+                  <Link href="/signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }
+

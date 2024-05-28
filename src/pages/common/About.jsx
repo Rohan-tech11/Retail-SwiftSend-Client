@@ -86,6 +86,7 @@ const LogisticsImg = styled('img')({
   margin: '0px auto 0px auto',
 });
 
+
 const LogisticImg = styled('img')({
   maxWidth: '100%',
   height: '525px',

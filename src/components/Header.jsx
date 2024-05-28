@@ -44,7 +44,7 @@ export default function Header() {
             variant="h5"
             color={'#ff6813'}
             paddingLeft={'5px'}
-            fontWeight={'bold'}
+            // fontWeight={'bold'}
             noWrap
             component={Title}
             href="/"
