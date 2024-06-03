@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from 'universal-cookie';
 import { PulseLoader } from "react-spinners";
 import getAuthToken from "../../utils/auth";
-import login from "../../assets/login.png";
+import signup from "../../assets/signup.png";
 
 
 import {
@@ -212,7 +212,7 @@ export default function Signup() {
           }}
         >
           <img
-            src={login}
+            src={signup}
             alt="signup"
             style={{ width: '60%', height: '60%', objectFit: 'cover' }}
           />
@@ -243,7 +243,7 @@ export default function Signup() {
               Sign Up
             </Typography>
             {formError && <Alert severity="error">{formError}</Alert>}
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1, width: '100%', maxWidth: 360 }}>
               <TextField
                 margin="normal"
                 required
@@ -331,36 +331,38 @@ export default function Signup() {
                   '&:hover': {
                     bgcolor: 'secondary.dark',
                   },
+                  width: '100%',
+                  maxWidth: 360,
                 }}
               >
                 {isLoading ? <PulseLoader color="#fff" size={5} /> : "Sign Up"}
               </Button>
-              <Grid container>
-                <Grid item>
+              <Box sx={{ width: '100%', maxWidth: 360, textAlign: 'center' }}>
                 <Typography variant="h6" align="center">
-          OR
-        </Typography>
-        <Link to="/signup/client" style={{ textDecoration: 'none' }}>
-          <Button
-            variant="contained"
-            color="secondary"
-            fullWidth
-                sx={{
-                  mt: 3,
-                  mb: 2,
-                  bgcolor: 'secondary.main',
-                  '&:hover': {
-                    bgcolor: 'secondary.dark',
-                  },
-                }}
-          >
-            I&apos;m a service provider
-          </Button>
-        </Link>
-        <Link to="/login" style={{ textDecoration: 'none', marginTop: '16px', display: 'block', textAlign: 'center' }}>
-          <Typography variant="body2">Already have an account? Login Here</Typography>
-        </Link>                </Grid>
-              </Grid>
+                  OR
+                </Typography>
+                <Link to="/signup/client" style={{ textDecoration: 'none' }}>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      bgcolor: 'secondary.main',
+                      '&:hover': {
+                        bgcolor: 'secondary.dark',
+                      },
+                      width: '100%',
+                      maxWidth: 360,
+                    }}
+                  >
+                    I&apos;m a service provider
+                  </Button>
+                </Link>
+                <Link to="/login" style={{ textDecoration: 'none',  display: 'block' }}>
+                  <Typography variant="body2">Already have an account? Login Here</Typography>
+                </Link>
+              </Box>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
