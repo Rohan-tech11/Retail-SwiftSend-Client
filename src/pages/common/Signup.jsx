@@ -2,16 +2,44 @@ import { AccountCircle } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import Cookies from 'universal-cookie';
 import { PulseLoader } from "react-spinners";
-import Cookies from 'universal-cookie'
 import getAuthToken from "../../utils/auth";
+import login from "../../assets/login.png";
 
-import styles from "./Signup.module.css";
+
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  Avatar,
+  Grid,
+  CssBaseline,
+  Paper,
+  Alert,
+  CircularProgress,
+} from "@mui/material";
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#292929',
+    },
+    secondary: {
+      main: '#ff6813',
+      dark: '#e05700',
+    },
+  },
+});
 
 export default function Signup() {
   const cookies = new Cookies();
 
-  const {cookie, token} = getAuthToken();
+  const { cookie, token } = getAuthToken();
 
   if (token || cookie) {
     localStorage.clear();
@@ -23,11 +51,11 @@ export default function Signup() {
   let phoneRegex = /^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   let passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
-  const [name, setName] = useState("John Doe");
-  const [email, setEmail] = useState("mthite5161@conestogac.on.ca");
-  const [phone, setPhone] = useState("5195008854");
-  const [password, setPassword] = useState("Abc123!@");
-  const [confirmPassword, setConfirmPassword] = useState("Abc123!@");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -57,7 +85,6 @@ export default function Signup() {
   }
   function onPhoneChange(event) {
     let value = event.target.value;
-
     setPhone(value);
     if (!phoneRegex.test(value)) {
       setPhoneError(true);
@@ -77,7 +104,7 @@ export default function Signup() {
   function onConfirmPasswordChange(event) {
     let value = event.target.value;
     setConfirmPassword(value);
-    if (password != value) {
+    if (password !== value) {
       setConfirmPasswordError(true);
     } else {
       setConfirmPasswordError(false);
@@ -94,13 +121,10 @@ export default function Signup() {
       passwordError ||
       confirmPasswordError
     ) {
-      console.log("check error", true);
       return true;
     } else if (!name || !email || !phone || !password || !confirmPassword) {
-      console.log("check values", true);
       return true;
     } else {
-      console.log("No errors");
       return false;
     }
   }
@@ -127,8 +151,6 @@ export default function Signup() {
       })
         .then((res) => {
           setIsLoading(false);
-          console.log("In user registration:", res);
-
           navigate("/verify");
         })
         .catch((err) => {
@@ -152,7 +174,6 @@ export default function Signup() {
               );
               break;
           }
-          console.log("Error signing up", err);
         });
     } else {
       setIsLoading(false);
@@ -160,124 +181,191 @@ export default function Signup() {
     }
   }
 
+  function Copyright(props) {
+    return (
+      <Typography variant="body2" color="text.secondary" align="center" {...props}>
+        {'Copyright © '}
+        <Link color="inherit" href="#">
+          SwiftSend
+        </Link>{' '}
+        {new Date().getFullYear()}
+        {'.'}
+      </Typography>
+    );
+  }
+
   return (
-    <div className={styles.container}>
-      <form className={styles.form}>
-        <div className={styles.headingContainer}>
-          <AccountCircle />
-          <p>Signup</p>
-        </div>
-        <div className={styles.error}>{formError && formError}</div>
-        <div className={styles.labelContainer}>
-          <label htmlFor="name" className={styles.label}>
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="John Doe"
-            className={styles.input}
-            value={name}
-            onChange={onNameChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {nameError ? "Please enter a valid name." : null}
-        </div>
-        <div className={styles.labelContainer}>
-          <label htmlFor="email" className={styles.label}>
-            Email
-          </label>
-          <input
-            type="text"
-            name="email"
-            id="email"
-            placeholder="john.doe@abc.com"
-            className={styles.input}
-            value={email}
-            onChange={onEmailChange}
-            onBlur={onEmailChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {emailError ? "Please enter a valid email." : null}
-        </div>
-
-        <div className={styles.labelContainer}>
-          <label htmlFor="phone" className={styles.label}>
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            id="phone"
-            placeholder="9876543210"
-            className={styles.input}
-            value={phone}
-            onChange={onPhoneChange}
-            onBlur={onPhoneChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {phoneError ? "Please enter a valid number." : null}
-        </div>
-
-        <div className={styles.labelContainer}>
-          <label htmlFor="password" className={styles.label}>
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="xxxxxxxxxxxxx"
-            className={styles.input}
-            value={password}
-            onChange={onPasswordChange}
-            onBlur={onPasswordChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {passwordError
-            ? "Password should have 1 uppercase, 1 lowercase, 1 symbol and 8 characters."
-            : null}
-        </div>
-
-        <div className={styles.labelContainer}>
-          <label htmlFor="confirmPassword" className={styles.label}>
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            placeholder="xxxxxxxxxxxxx"
-            className={styles.input}
-            value={confirmPassword}
-            onChange={onConfirmPasswordChange}
-          />
-        </div>
-        <div className={styles.error}>
-          {confirmPasswordError
-            ? "Password and confirm password should match."
-            : null}
-        </div>
-
-        <button
-          className={styles.button}
-          onClick={handleSubmit}
-          disabled={isLoading}
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={7}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+          }}
         >
-          {isLoading ? <PulseLoader color="#fff" size={5} /> : "Signup"}
-        </button>
-        <h3>OR</h3>
-        <Link to="/signup/client">
-          <button className={styles.buttonAlt}>I&apos;m a service provider</button>
+          <img
+            src={login}
+            alt="signup"
+            style={{ width: '60%', height: '60%', objectFit: 'cover' }}
+          />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <AccountCircle />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign Up
+            </Typography>
+            {formError && <Alert severity="error">{formError}</Alert>}
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="name"
+                label="Name"
+                name="name"
+                autoComplete="name"
+                value={name}
+                onChange={onNameChange}
+                error={nameError}
+                helperText={nameError ? "Please enter a valid name." : ""}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={email}
+                onChange={onEmailChange}
+                error={emailError}
+                helperText={emailError ? "Please enter a valid email." : ""}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="phone"
+                label="Phone Number"
+                name="phone"
+                autoComplete="tel"
+                value={phone}
+                onChange={onPhoneChange}
+                error={phoneError}
+                helperText={phoneError ? "Please enter a valid number." : ""}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                value={password}
+                onChange={onPasswordChange}
+                error={passwordError}
+                helperText={
+                  passwordError
+                    ? "Password should have 1 uppercase, 1 lowercase, 1 symbol and 8 characters."
+                    : ""
+                }
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
+                autoComplete="new-password"
+                value={confirmPassword}
+                onChange={onConfirmPasswordChange}
+                error={confirmPasswordError}
+                helperText={
+                  confirmPasswordError
+                    ? "Password and confirm password should match."
+                    : ""
+                }
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={isLoading}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  bgcolor: 'secondary.main',
+                  '&:hover': {
+                    bgcolor: 'secondary.dark',
+                  },
+                }}
+              >
+                {isLoading ? <PulseLoader color="#fff" size={5} /> : "Sign Up"}
+              </Button>
+              <Grid container>
+                <Grid item>
+                <Typography variant="h6" align="center">
+          OR
+        </Typography>
+        <Link to="/signup/client" style={{ textDecoration: 'none' }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  bgcolor: 'secondary.main',
+                  '&:hover': {
+                    bgcolor: 'secondary.dark',
+                  },
+                }}
+          >
+            I&apos;m a service provider
+          </Button>
         </Link>
-
-        <Link to="/login">Alread have an account? Login Here</Link>
-      </form>
-    </div>
+        <Link to="/login" style={{ textDecoration: 'none', marginTop: '16px', display: 'block', textAlign: 'center' }}>
+          <Typography variant="body2">Already have an account? Login Here</Typography>
+        </Link>                </Grid>
+              </Grid>
+              <Copyright sx={{ mt: 5 }} />
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
 }
