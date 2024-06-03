@@ -20,7 +20,7 @@ import {
   MenuBox,
   MenuItemsBox,
 } from './headerStyles';
-import logo from '/logo-glyph.png';
+import logo from '/logo.png';
 
 export default function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -38,19 +38,8 @@ export default function Header() {
       <Container maxWidth="100%">
         <Toolbar disableGutters>
           <DesktopLogo>
-            <Logo src={logo} alt="logo" />
+            <Logo src={logo} alt="logo" style={{ width: '200px', height: '70px' }} />
           </DesktopLogo>
-          <Typography
-            variant="h5"
-            color={'#ff6813'}
-            paddingLeft={'5px'}
-            // fontWeight={'bold'}
-            noWrap
-            component={Title}
-            href="/"
-          >
-            SwiftSend
-          </Typography>
 
           <MenuItemsBox>
             <NavLink to="/" style={{ textDecoration: 'none' }}>
@@ -74,14 +63,6 @@ export default function Header() {
           <MobileLogo>
             <Logo src={logo} alt="logo" />
           </MobileLogo>
-          <Typography
-            variant="h5"
-            noWrap
-            component={MobileTitle}
-            href="/"
-          >
-            SwiftSend
-          </Typography>
 
           <MenuBox sx={{ flexGrow: 1 }}>
             <IconButton
