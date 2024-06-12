@@ -56,9 +56,4 @@ export const user = [
     icon: <HiOutlineNewspaper />,
     drop: false,
   },
-  {
-    title: "Logout",
-    path: "/logout",
-    icon: <MdLogout />,
-  },
 ];

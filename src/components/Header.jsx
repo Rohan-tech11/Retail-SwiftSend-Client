@@ -20,7 +20,7 @@ import {
   MenuBox,
   MenuItemsBox,
 } from './headerStyles';
-import logo from '/logo.png';
+import logo from '../assets/logo.png';
 
 export default function Header() {
   const [anchorElNav, setAnchorElNav] = useState(null);
