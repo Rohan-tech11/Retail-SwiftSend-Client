@@ -1,9 +1,0 @@
-.open {
-    margin-left: 300px;
-    transition: 0.5s;
-}
-
-.closed {
-    transition: 0.5s;
-    margin-left: 20px;
-}
