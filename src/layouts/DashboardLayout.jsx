@@ -15,19 +15,20 @@ import {
   DesktopLogo,
 } from '../components/headerStyles';
 
-
-
 const drawerWidth = 300;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
+    height: '100vh',  
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     marginLeft: `-${drawerWidth}px`,
+    backgroundColor: '#292929',
+    color: '#ffffff', 
     ...(open && {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
@@ -53,6 +54,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
+  backgroundColor: '#292929',
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -61,6 +63,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
+  backgroundColor: '#292929',
 }));
 
 export default function DashboardLayout() {
@@ -87,7 +90,7 @@ export default function DashboardLayout() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }} >
+    <Box sx={{ display: 'flex', height: '100vh' }} >  {/* Set Box height to full viewport height */}
       <CssBaseline />
       <AppBar position="fixed" open={open} >
         <Toolbar style={{ backgroundColor: '#292929'}}>
@@ -107,7 +110,6 @@ export default function DashboardLayout() {
           <DesktopLogo>
             <Logo src={logo} alt="logo" style={{ width: '200px', height: '70px' }} />
           </DesktopLogo>
-
         </Toolbar>
       </AppBar>
       <Drawer
@@ -117,6 +119,7 @@ export default function DashboardLayout() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+            backgroundColor: '#292929',
           },
         }}
         variant="persistent"
