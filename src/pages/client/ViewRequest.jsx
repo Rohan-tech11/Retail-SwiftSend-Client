@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import getAuthToken from "../../utils/auth";
 
-import styles from "./viewRequest.module.css";
+import styles from "./ViewRequest.module.css";
 
 export default function ViewRequest() {
   const [isLoading, setIsLoading] = useState(false);
